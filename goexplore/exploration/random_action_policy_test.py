@@ -4,16 +4,14 @@ from unittest import mock
 
 from goexplore.exploration import random_action_policy
 
+
 class RandomActionPolicyTest(unittest.TestCase):
     def setUp(self):
-        mock_actions = mock.create_autospec(gym.Space,
-                                            instance=True,
-                                            spec_set=True)
+        mock_actions = mock.create_autospec(
+            gym.Space, instance=True, spec_set=True)
         mock_actions.sample.side_effect = [1, 2, 3, 4, 5]
 
-        mock_env = mock.create_autospec(gym.Env,
-                                        instance=True,
-                                        spec_set=True)
+        mock_env = mock.create_autospec(gym.Env, instance=True, spec_set=True)
         mock_env.action_space = mock_actions
         mock_env.step.return_value = None, 0, False, None
 
@@ -21,9 +19,7 @@ class RandomActionPolicyTest(unittest.TestCase):
         self.mock_actions = mock_actions
 
         self.explore_policy = random_action_policy.RandomActionPolicy(
-            self.mock_env, number_of_steps=5
-        )
-
+            self.mock_env, number_of_steps=5)
 
     def test_exploration_samples_random_actions_and_uses_them(self):
         self.mock_actions.sample.side_effect = [1, 2, 3, 4, 5]
@@ -70,8 +66,7 @@ class RandomActionPolicyTest(unittest.TestCase):
             (60, 500, False, None),
         ]
         result = self.explore_policy.explore(10)
-        self.assertEqual(result,
-                         (60, 500, False, None))
+        self.assertEqual(result, (60, 500, False, None))
 
     def test_exploration_stops_after_step_returns_done(self):
         self.mock_actions.sample.side_effect = [1, 2, 3, 4, 5]
@@ -82,15 +77,12 @@ class RandomActionPolicyTest(unittest.TestCase):
         ]
 
         latest_tuple = self.explore_policy.explore(10)
-        self.assertEqual(latest_tuple,
-                         (40, 300, True, None))
+        self.assertEqual(latest_tuple, (40, 300, True, None))
 
     def test_exploration_returns_none_if_step_size_eq_0(self):
         self.explore_policy = random_action_policy.RandomActionPolicy(
-            self.mock_env, 0
-        )
+            self.mock_env, 0)
         self.assertIsNone(self.explore_policy.explore(10))
-
 
 
 if __name__ == '__main__':

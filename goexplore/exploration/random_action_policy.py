@@ -2,16 +2,15 @@ import gym
 
 from goexplore.exploration import base_policy
 
+
 class RandomActionPolicy(base_policy.BasePolicy):
     """An exploration policy that samples random action"""
-    def __init__(self,
-                 environment: gym.Env,
-                 number_of_steps: int):
+
+    def __init__(self, environment: gym.Env, number_of_steps: int):
         super().__init__(environment)
         self._number_of_steps = number_of_steps
 
-    def explore(self,
-                current_state: gym.Space):
+    def explore(self, current_state: gym.Space):
         result_tuple = None
         for step_no in range(self._number_of_steps):
             action = self.environment.action_space.sample()
@@ -20,4 +19,3 @@ class RandomActionPolicy(base_policy.BasePolicy):
             if is_done:
                 break
         return result_tuple
-

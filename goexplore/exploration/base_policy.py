@@ -2,26 +2,25 @@ import typing
 
 import gym
 
-on_state_change_type = typing.Callable[
-    [
-        gym.Space, # State
-        gym.Space, # Action
-        float, # Reward
-        gym.Space, # New state
-        bool, # Is done
-        typing.Optional[object], # Info
-    ],
-    type(None)
-]
+on_state_change_type = typing.Callable[[
+    gym.Space,  # State
+    gym.Space,  # Action
+    float,  # Reward
+    gym.Space,  # New state
+    bool,  # Is done
+    typing.Optional[object],  # Info
+],
+                                       type(None)]
+
 
 def _noop_function(*args, **kwargs):
     pass
 
+
 class BasePolicy(object):
     """A class that represents an exploration policy for Go-Explore"""
 
-    def __init__(self,
-                 environment: gym.Env):
+    def __init__(self, environment: gym.Env):
         """Create exploration policy.
 
         :param environment: OpenAI Gym environment that should be explored
@@ -37,23 +36,13 @@ class BasePolicy(object):
     def on_action(self, new_on_action: on_state_change_type):
         self._on_action = new_on_action
 
-    def _environment_act(self,
-                         current_state: gym.Space,
-                         action: gym.Space):
+    def _environment_act(self, current_state: gym.Space, action: gym.Space):
         result = self.environment.step(action)
         new_state, reward, done, info = result
-        self._on_action(
-            current_state,
-            action,
-            reward,
-            new_state,
-            done,
-            info
-        )
+        self._on_action(current_state, action, reward, new_state, done, info)
         return result
 
-    def explore(self,
-                current_state: gym.Space):
+    def explore(self, current_state: gym.Space):
         """Explore from current state.
 
         This method should explore from current_state using the exploration
