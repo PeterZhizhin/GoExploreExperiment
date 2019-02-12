@@ -9,8 +9,7 @@ on_state_change_type = typing.Callable[[
     gym.Space,  # New state
     bool,  # Is done
     typing.Optional[object],  # Info
-],
-                                       type(None)]
+], type(None)]
 
 
 def _noop_function(*args, **kwargs):
