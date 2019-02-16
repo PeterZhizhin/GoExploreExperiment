@@ -48,6 +48,9 @@ class BasePolicy(object):
         policy. It can be e.g. random actions, exploration through curiosity,
         etc.
 
+        The environment should be in current_state in order for this method to
+        work properly.
+
         :param current_state: Current state of the environment
         :returns Latest tuple from env.step call (or None if not explored)
         """
