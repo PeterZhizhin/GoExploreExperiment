@@ -27,7 +27,7 @@ class RandomActionPolicyTest(unittest.TestCase):
 
         self.assertEqual(self.mock_actions.sample.call_count, 5)
         self.mock_env.step.assert_has_calls([
-            mock.call(9),
+            mock.call(1),
             mock.call(2),
             mock.call(3),
             mock.call(4),
