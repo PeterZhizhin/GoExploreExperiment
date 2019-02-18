@@ -5,9 +5,7 @@ load("@pip_deps//:requirements.bzl", "requirement")
 py_library(
     name = "cell",
     srcs = ["cell.py"],
-    deps = [
-        requirement("gym"),
-    ],
+    deps = [],
 )
 
 py_library(
