@@ -7,10 +7,10 @@ class LoadPolicy(base_policy.BasePolicy):
     """A class that returns to expected state using loading."""
 
     def __init__(self, environment: save_loadable.SaveLoadableEnv):
-        """Create a load policy using save-loadable environment.
+        """Create a load policy using a save-loadable environment.
 
         :param environment: Save-loadable environment
-        :raises TypeError: If an environment is not SaveLoadable.
+        :raises TypeError: If provided environment is not SaveLoadable.
         """
         super().__init__(environment)
         if not isinstance(environment, save_loadable.SaveLoadableEnv):
@@ -20,7 +20,9 @@ class LoadPolicy(base_policy.BasePolicy):
                 "LoadPolicy for returning, got {!r}".format(environment))
 
     def return_to_cell(self, expected_cell: loadable_cell.LoadableCell):
-        """Returning to cell loading from snapshot.
+        """Returning to a cell loading from a snapshot.
+
+        The cell should contain the snapshot.
 
         :param expected_cell: Cell to return to, should be loadable.
         :return: Observation from the loaded cell

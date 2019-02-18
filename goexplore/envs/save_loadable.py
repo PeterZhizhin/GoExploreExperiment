@@ -22,6 +22,7 @@ class SaveLoadableEnv(gym.Env):
 
 
 class SaveLoadableWrapper(gym.Wrapper, SaveLoadableEnv):
+    """Wrapper that creates a SaveLoadableEnv from save/load functions"""
     def __init__(self, env: gym.Env,
                  save_func: typing.Callable[[gym.Env], typing.Any],
                  load_func: typing.Callable[[gym.Env, typing.Any], gym.Space]):
