@@ -4,6 +4,7 @@ from goexplore.returning import base_policy
 
 class ReplayPolicy(base_policy.BasePolicy):
     """Policy that replays a trajectory to return to a target cell."""
+
     def return_to_cell(self, expected_cell: cell.Cell):
         """Return to a cell, replaying it's trajectory.
 

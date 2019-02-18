@@ -24,7 +24,10 @@ class ReplayPolicyTestCase(unittest.TestCase):
 
     def test_replay_policy_replays_whole_policy(self):
         trajectory_cell = cell.Cell(trajectory_to_cell=[
-            "action_1", "action_2", "action_3", "action_4",
+            "action_1",
+            "action_2",
+            "action_3",
+            "action_4",
         ])
         self.mock_env.reset.return_value = "obs_0"
         self.mock_env.step.side_effect = [
