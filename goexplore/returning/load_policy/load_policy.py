@@ -1,6 +1,6 @@
-from goexplore.archive import loadable_cell
 from goexplore.envs import save_loadable
 from goexplore.returning import base_policy
+from goexplore.returning.load_policy import loadable_cell_info
 
 
 class LoadPolicy(base_policy.BasePolicy):
@@ -19,7 +19,8 @@ class LoadPolicy(base_policy.BasePolicy):
                 "of SaveLoadableEnv in order to use "
                 "LoadPolicy for returning, got {!r}".format(environment))
 
-    def return_to_cell(self, expected_cell: loadable_cell.LoadableCell):
+    def return_to_cell(self,
+                       expected_cell: loadable_cell_info.LoadableCellInfo):
         """Returning to a cell loading from a snapshot.
 
         The cell should contain the snapshot.
@@ -28,7 +29,8 @@ class LoadPolicy(base_policy.BasePolicy):
         :return: Observation from the loaded cell
         :raises TypeError: If expected_cell is not a LoadableCell.
         """
-        if not isinstance(expected_cell, loadable_cell.LoadableCell):
-            raise TypeError("Provided cell should be a subclass "
-                            "of LoadableCell, got {!r}".format(expected_cell))
+        if not isinstance(expected_cell, loadable_cell_info.LoadableCellInfo):
+            raise TypeError(
+                "Provided cell return info should be a subclass "
+                "of LoadableCellInfo, got {!r}".format(expected_cell))
         return self._environment.load_snapshot(expected_cell.snapshot_data)

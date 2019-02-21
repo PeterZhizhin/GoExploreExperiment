@@ -3,8 +3,9 @@ from unittest import mock
 
 import gym
 
-from goexplore.returning import replay_policy
-from goexplore.archive import cell
+from goexplore.returning.replay_policy import replay_policy
+from goexplore.returning.replay_policy import replay_cell_info
+from goexplore.cell import base_returning_info
 
 
 class ReplayPolicyTestCase(unittest.TestCase):
@@ -15,7 +16,7 @@ class ReplayPolicyTestCase(unittest.TestCase):
 
     def test_replay_policy_resets_env_on_empty_trajectory_and_returns_obs(
             self):
-        empty_trajectory_cell = cell.Cell(trajectory_to_cell=[])
+        empty_trajectory_cell = replay_cell_info.ReplayCellInfo(trajectory=[])
         self.mock_env.reset.return_value = "reset_observation"
         observation = self.return_policy.return_to_cell(empty_trajectory_cell)
 
@@ -23,7 +24,7 @@ class ReplayPolicyTestCase(unittest.TestCase):
         self.assertEqual(observation, "reset_observation")
 
     def test_replay_policy_replays_whole_policy(self):
-        trajectory_cell = cell.Cell(trajectory_to_cell=[
+        trajectory_cell = replay_cell_info.ReplayCellInfo(trajectory=[
             "action_1",
             "action_2",
             "action_3",
@@ -47,6 +48,13 @@ class ReplayPolicyTestCase(unittest.TestCase):
             mock.call("action_3"),
             mock.call("action_4"),
         ])
+
+    def test_calling_with_unexpected_cell_type_raises_exception(self):
+        test_cell = base_returning_info.BaseReturningInfo()
+        policy = replay_policy.ReplayPolicy(self.mock_env)
+        with self.assertRaisesRegexp(TypeError,
+                                     "ReplayCellInfo.*got.*BaseReturningInfo"):
+            policy.return_to_cell(test_cell)
 
 
 if __name__ == '__main__':

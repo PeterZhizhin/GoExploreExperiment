@@ -4,9 +4,9 @@ import unittest
 from unittest import mock
 
 from goexplore.envs import save_loadable
-from goexplore.archive import loadable_cell
-from goexplore.archive import cell
-from goexplore.returning import load_policy
+from goexplore.returning.load_policy import load_policy
+from goexplore.returning.load_policy import loadable_cell_info
+from goexplore.cell import base_returning_info
 
 
 class LoadPolicyTest(unittest.TestCase):
@@ -18,7 +18,8 @@ class LoadPolicyTest(unittest.TestCase):
         env = save_loadable.SaveLoadableWrapper(core_env, save_function,
                                                 load_function)
 
-        cell = loadable_cell.LoadableCell(snapshot_data="snapshot_data")
+        cell = loadable_cell_info.LoadableCellInfo(
+            snapshot_data="snapshot_data")
 
         policy = load_policy.LoadPolicy(env)
         policy.return_to_cell(cell)
@@ -43,9 +44,10 @@ class LoadPolicyTest(unittest.TestCase):
         env = save_loadable.SaveLoadableWrapper(core_env, save_function,
                                                 load_function)
 
-        test_cell = cell.Cell()
+        test_cell = base_returning_info.BaseReturningInfo()
         policy = load_policy.LoadPolicy(env)
-        with self.assertRaisesRegexp(TypeError, "LoadableCell.*got.*Cell"):
+        with self.assertRaisesRegexp(
+                TypeError, "LoadableCellInfo.*got.*BaseReturningInfo"):
             policy.return_to_cell(test_cell)
 
 
