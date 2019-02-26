@@ -1,3 +1,4 @@
+load("@pip_deps//:requirements.bzl", "requirement")
 package(default_visibility = ["//goexplore/archive:__pkg__"])
 
 py_library(
@@ -33,4 +34,21 @@ py_library(
 py_library(
     name = "base_utility_info",
     srcs = ["base_utility_info.py"],
+)
+
+py_library(
+    name = "reward_prioritization",
+    srcs = ["reward_prioritization.py"],
+    deps = [
+        ":base_prioritizing_info",
+    ],
+)
+
+py_library(
+    name = "base_cell_factory",
+    srcs = ["base_cell_factory.py"],
+    deps = [
+        ":total_cell",
+        requirement("gym"),
+    ],
 )
